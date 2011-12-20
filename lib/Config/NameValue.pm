@@ -1,11 +1,11 @@
 package Vutil::Config;
 
-# ABSTRACT:
+# ABSTRACT: Round trip simple name/value config file handling.
 
 # VERSION
 
 use strict;
-use warnings in test environment only
+use warnings;
 
 use Carp;
 
