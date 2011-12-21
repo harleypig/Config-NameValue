@@ -1,4 +1,4 @@
-package Vutil::Config;
+package Config::NameValue;
 
 # ABSTRACT: Round trip simple name/value config file handling.
 
@@ -8,18 +8,20 @@ use strict;
 use warnings;
 
 use Carp;
+use File::Slurp qw( slurp );
+use POSIX qw( strftime );
 
 =head1 NAME
 
-Vutil::Config - Read and save configuration files
+Config::NameValue - Read and save configuration files
 
 =head1 VERSION
 
-Version 0.01
+Version 1.00
 
 =cut
 
-our $VERSION = 0.01;
+our $VERSION = 1.00;
 
 =head1 SYNOPSIS
 
@@ -39,59 +41,75 @@ Blank lines and comments are ignored.
 
 =head2 new
 
-returns a blessed object
+Returns a blessed object.  Can optionally be passed a filename, which will be loaded via the C<load> command.
 
 =head2 load
 
-loads and parses the specified configuration file
+Loads and parses the specified configuration file.
 
 =cut
 
-{ # Begin data hiding
+{ # Quick! Hide!
 
 my $error;
 
-sub new { my $class = shift; bless {}, ref $class || $class }
+sub new {
+
+  my ( $class, $file ) = @_;
+
+  my $self = bless {}, ref $class || $class;
+
+  $self->load( $file )
+    if $file ne '';
+
+  return $self;
+
+}
 
 sub load {
 
   my ( $self, $file ) = @_;
 
-  croak "No file to load"
-    unless $file;
+#  croak "No file to load"
+#    unless $file;
+#
+#  open my $FH, '<', $file
+#    or croak "Unable to open $file: $!";
+#
+#  chomp @{ $self->{ lines } = [ <$FH> ] };
+#
+#  $self->{ count } = @{ $self->{ lines } };
 
-  open my $FH, '<', $file
-    or croak "Unable to open $file: $!";
+  my @lines = slurp( $file, { chomp => 1 } );
 
-  $self->{ 'file' } = $file;
+  for ( my $i = 0 ; $i < @lines ; $i++ ) {
 
-  chomp @{ $self->{ 'lines' } = [ <$FH> ] };
-
-  $self->{ 'count' } = @{ $self->{ 'lines' } };
-
-  for ( my $i = 0 ; $i < @{ $self->{ 'lines' } } ; $i++ ) {
-
-    my $line = $self->{ 'lines' }[$i];
+    my $line = $self->{ lines }[$i];
 
     next if $line =~ /^\s*(#.*)?$/; # Ignore blank lines and comment lines
     $line =~ s/(?<!\\)#.*$//;       # Strip comment on a valid line, ignoring escaped #'s
 
-    my @data = split /=/, $line, 2;
+#    my @data = split /\s*=\s*/, $line, 2;
+#    $data[1] =~ s/^\s*(["'])(.*)\1$/$2/;
+#    $self->{ name }{ $data[0] } = { value => $data[1], line => $i, modified => 0 };
 
-    $data[1] =~ s/^(["'])(.*)\1$/$2/;
-
-    $self->{ 'name' }{ $data[0] } = { 'value' => $data[1], 'line' => $i, 'modified' => 0 };
+    my ( undef, $name, $value ) = $line =~ /^\s*(["'])?(.*?)\1\s*=\s*(.*?)\s*$/;
+    $self->{ name }{ $name } = { value => $value, line => $i, modified => 0 };
 
   }
 
-  $self->{ 'modified' } = 0;
+  $self->{ file } = $file;
+  $self->{ lines } = \@lines;
+  $self->{ count } = scalar @lines;
+  $self->{ modified } = 0;
 
   return 1;
+
 }
 
 =head2 save
 
-makes changes and saves the configuration file
+Saves the configuration, with any changes, to a file.
 
 If no filename is passed the original file is overwritten, otherwise a new file will be created.
 
@@ -101,25 +119,28 @@ sub save {
 
   my ( $self, $file ) = @_;
 
-  return 1 unless $self->{ 'modified' };
+  return 1 unless $self->{ modified };
 
-  my @modified = grep { $self->{ 'name' }{ $_ }{ 'modified' } } keys %{ $self->{ 'name' } };
+  my @modified = grep { $self->{ name }{ $_ }{ modified } } keys %{ $self->{ name } };
 
   for my $name ( @modified ) {
 
-    my ( $value, $line ) = @{ $self->{ 'name' }{ $name } }{qw( value line )};
+    my ( $value, $line ) = @{ $self->{ name }{ $name } }{qw( value line )};
 
-    $self->{ 'lines' }[$line] =~ s/^($name=")(?:.*)"\s*$/$1$value"/;
+    $self->{ lines }[$line] =~ s/^(\s*(["'])$name\2\s*=\s*)(["'])(?:.*)\3\s*$/$1$3$value$3/;
 
   }
 
-  my $work_file = sprintf '%s.work', $file ||= $self->{ 'file' };
+  my $work_file = sprintf '%s.work', $file ||= $self->{ file };
 
   open my $FH, '>', $work_file
     or croak "Unable to open $work_file: $!";
 
   print $FH "$_\n"
-    for @{ $self->{ 'lines' } };
+    for @{ $self->{ lines } };
+
+  $FH->close
+    or carp "Unable to close $work_file: $!\n";
 
   rename $work_file, $file
     or croak "Unable to rename $work_file to $file: $!";
@@ -128,7 +149,7 @@ sub save {
 
 =head2 get
 
-returns the value for the requested name, undef for nonexistant or empty names so check error
+Returns the value for the requested name, undef for nonexistant or empty names.
 
 =cut
 
@@ -140,9 +161,9 @@ sub get {
     if $name eq '';
 
   do { $error = "$name does not exist" ; return }
-    unless exists $self->{ 'name' }{ $name };
+    unless exists $self->{ name }{ $name };
 
-  ( my $value = $self->{ 'name' }{ $name }{ 'value' } ) =~ s/\\#/#/;
+  ( my $value = $self->{ name }{ $name }{ value } ) =~ s/\\#/#/;
 
   return $value;
 
@@ -150,9 +171,9 @@ sub get {
 
 =head2 set
 
-modifies the requested name with the supplied value
+Modifies the requested name with the supplied value.
 
-if the name does not exist it will be created and saved with a comment
+If the name does not exist it will be created and saved with a comment
 indicating that it was added by this program
 
 =cut
@@ -164,45 +185,52 @@ sub set {
   croak "Can't set nothing (no name passed)"
     if $name eq '';
 
-  if ( ! exists $self->{ 'name' }{ $name } ) {
+  if ( ! exists $self->{ name }{ $name } ) {
 
-    my $date = do {
-
-      my @d = localtime( time );
-      $d[5] += 1900;
-      $d[4]++;
-
-      join '-', @d[4,3,5];
-
-    };
+#    my $date = do {
+#
+#      my @d = localtime( time );
+#      $d[5] += 1900;
+#      $d[4]++;
+#
+#      join '-', @d[4,3,5];
+#
+#    };
 
     $value =~ s/#/\\#/;
 
-    push @{ $self->{ 'lines' } }, "# $name added by Vutil::Config on $date";
-    push @{ $self->{ 'lines' } }, "$name=\"$value\"";
-    $self->{ 'count' }++;
+    my $comment = sprintf '# %s added by %s on %s', $name, __PACKAGE__, strftime( '%F', gmtime );
 
-    $self->{ 'name' }{ $name } = { 'value' => $value, 'line' => $self->{ 'count' }++, 'modified' => 0 };
+    push @{ $self->{ lines } }, $comment;
+    push @{ $self->{ lines } }, "$name=\"$value\"";
+
+    $self->{ count }++;
+    $self->{ name }{ $name } = {
+      value    => $value,
+      line     => $self->{ count }++,
+      modified => 0,
+    };
 
   } else {
 
-    @{ $self->{ 'name' }{ $name } }{qw( value modified )} = ( $value, 1 );
+    @{ $self->{ name }{ $name } }{qw( value modified )} = ( $value, 1 );
 
   }
 
-  $self->{ 'modified' } = 1;
+  $self->{ modified } = 1;
 
   return 1;
+
 }
 
 =head2 error
 
-returns the most recent error
+Returns the most recent error
 
 =cut
 
 sub error { $error }
 
-} # End  hiding data
+} # You can come out now!
 
 1;
