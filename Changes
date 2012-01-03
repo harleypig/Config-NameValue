@@ -1,0 +1,7 @@
+Revision history for {{ $dist->name }}
+
+{{$NEXT}}
+
+1.00
+  - Initial Creation
+  - Changes I've been wanting to make from original code

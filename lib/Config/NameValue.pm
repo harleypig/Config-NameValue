@@ -25,6 +25,11 @@ our $VERSION = 1.00;
 
 =head1 SYNOPSIS
 
+  use Config::NameValue;
+  my $c = Config::NameValue->new( 'config.file' );
+
+=head1 OVERVIEW
+
 Load simple name=value pair configuration files and save them.
 
 Blank lines and comments are ignored.
@@ -60,7 +65,7 @@ sub new {
   my $self = bless {}, ref $class || $class;
 
   $self->load( $file )
-    if $file ne '';
+    if $file && $file ne '';
 
   return $self;
 

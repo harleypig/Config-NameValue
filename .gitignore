@@ -1,0 +1,14 @@
+Config-NameValue-*
+blib/*
+_build*
+.build*
+Build
+Build.bat
+inc/*
+.lwpcookies
+Makefile
+Makefile.old
+pm_to_blib
+pm_to_blib*
+pod2htm*.tmp
+*.tar.gz
