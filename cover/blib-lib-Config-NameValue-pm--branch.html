@@ -20,21 +20,32 @@ http://www.pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/Config/NameValue.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">5.0%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">42.9%</td></tr>
 </table>
 <div><br/></div>
 <table>
 <tr><th>line</th><th>%</th><th colspan="2">coverage</th><th>branch</th></tr>
-<tr><td class="h"><a id="L67">67</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if $file and $file ne &#39;&#39;</td></tr>
-<tr><td class="h"><a id="L94">94</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $line =~ /^\s*(#.*)?$/</td></tr>
-<tr><td class="h"><a id="L127">127</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $$self{&#39;modified&#39;}</td></tr>
-<tr><td class="h"><a id="L141">141</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless open my $FH, &#39;&gt;&#39;, $work_file</td></tr>
-<tr><td class="h"><a id="L146">146</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $FH-&gt;close</td></tr>
-<tr><td class="h"><a id="L149">149</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless rename $work_file, $file</td></tr>
-<tr><td class="h"><a id="L164">164</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $name eq &#39;&#39;</td></tr>
-<tr><td class="h"><a id="L168">168</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (exists $$self{&#39;name&#39;}{$name})</td></tr>
-<tr><td class="h"><a id="L189">189</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $name eq &#39;&#39;</td></tr>
-<tr><td class="h"><a id="L192">192</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (not exists $$self{&#39;name&#39;}{$name}) { }</td></tr>
+<tr><td class="h"><a id="L28">28</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $class and $class ne &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L33">33</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if $file and $file ne &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L44">44</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;blessed($self)</td></tr>
+<tr><td class="h"><a id="L47">47</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (not $file or $file eq &#39;&#39;)</td></tr>
+<tr><td class="h"><a id="L50">50</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">unless exists $$self{&#39;file&#39;} and $$self{&#39;file&#39;} ne &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L72">72</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $line =~ /^\s*(#.*)?$/</td></tr>
+<tr><td class="h"><a id="L98">98</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;blessed($self)</td></tr>
+<tr><td class="h"><a id="L101">101</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if (not $file or $file eq &#39;&#39;)</td></tr>
+<tr><td class="h"><a id="L104">104</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">unless exists $$self{&#39;file&#39;} and $$self{&#39;file&#39;} ne &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L110">110</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $$self{&#39;modified&#39;}</td></tr>
+<tr><td class="h"><a id="L124">124</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless open my $FH, &#39;&gt;&#39;, $work_file</td></tr>
+<tr><td class="h"><a id="L129">129</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $FH-&gt;close</td></tr>
+<tr><td class="h"><a id="L132">132</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless rename $work_file, $file</td></tr>
+<tr><td class="h"><a id="L142">142</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;blessed($self)</td></tr>
+<tr><td class="h"><a id="L146">146</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if not exists $$self{&#39;count&#39;} or $$self{&#39;count&#39;} == 0</td></tr>
+<tr><td class="h"><a id="L148">148</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $name eq &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L152">152</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (exists $$self{&#39;name&#39;}{$name})</td></tr>
+<tr><td class="h"><a id="L165">165</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless &amp;blessed($self)</td></tr>
+<tr><td class="h"><a id="L169">169</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if not exists $$self{&#39;count&#39;} or $$self{&#39;count&#39;} == 0</td></tr>
+<tr><td class="h"><a id="L171">171</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if $name eq &#39;&#39;</td></tr>
+<tr><td class="h"><a id="L174">174</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (not exists $$self{&#39;name&#39;}{$name}) { }</td></tr>
 </table>
 </body>
 </html>

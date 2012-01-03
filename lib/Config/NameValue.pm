@@ -6,9 +6,11 @@ package Config::NameValue;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use Carp;
 use File::Slurp qw( slurp );
+use Scalar::Util qw( blessed );
 use POSIX qw( strftime );
 
 =head1 NAME
@@ -62,6 +64,9 @@ sub new {
 
   my ( $class, $file ) = @_;
 
+  croak 'Invalid call to new'
+    unless $class && $class ne '';
+
   my $self = bless {}, ref $class || $class;
 
   $self->load( $file )
@@ -74,6 +79,18 @@ sub new {
 sub load {
 
   my ( $self, $file ) = @_;
+
+  croak "Can't call load as a non-blessed object"
+    unless blessed $self;
+
+  if ( ! $file || $file eq '' ) {
+
+    croak 'No file to load'
+      unless exists $self->{ file } && $self->{ file } ne '';
+
+    $file = $self->{ file };
+
+  }
 
 #  croak "No file to load"
 #    unless $file;
@@ -124,6 +141,18 @@ sub save {
 
   my ( $self, $file ) = @_;
 
+  croak "Can't call save as a non-blessed object"
+    unless blessed $self;
+
+  if ( ! $file || $file eq '' ) {
+
+    croak 'No file to save'
+      unless exists $self->{ file } && $self->{ file } ne '';
+
+    $file = $self->{ file };
+
+  }
+
   return 1 unless $self->{ modified };
 
   my @modified = grep { $self->{ name }{ $_ }{ modified } } keys %{ $self->{ name } };
@@ -162,6 +191,12 @@ sub get {
 
   my ( $self, $name ) = @_;
 
+  croak "Can't call get as a non-blessed object"
+    unless blessed $self;
+
+  croak "Nothing loaded"
+    if ! exists $self->{ count } || $self->{ count } == 0;
+
   croak "Can't get nothing (no name passed)"
     if $name eq '';
 
@@ -186,6 +221,12 @@ indicating that it was added by this program
 sub set {
 
   my ( $self, $name, $value ) = @_;
+
+  croak "Can't call set as a non-blessed object"
+    unless blessed $self;
+
+  croak "Nothing loaded"
+    if ! exists $self->{ count } || $self->{ count } == 0;
 
   croak "Can't set nothing (no name passed)"
     if $name eq '';
