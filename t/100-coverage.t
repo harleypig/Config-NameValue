@@ -2,8 +2,7 @@
 # These tests were created to satisfy Devel::Cover reports.  They are not
 # exhaustive and should not be considered as a complete test case.
 
-use Test::More tests => 12;
-use Test::Exception;
+use Test::Most tests => 12;
 
 BEGIN { use_ok( 'Config::NameValue' ) }
 

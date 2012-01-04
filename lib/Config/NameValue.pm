@@ -4,33 +4,12 @@ package Config::NameValue;
 
 # VERSION
 
-use strict;
-use warnings;
-use namespace::autoclean;
-
-use Carp;
-use File::Slurp qw( slurp );
-use Scalar::Util qw( blessed );
-use POSIX qw( strftime );
-
-=head1 NAME
-
-Config::NameValue - Read and save configuration files
-
-=head1 VERSION
-
-Version 1.00
-
-=cut
-
-our $VERSION = 1.00;
-
 =head1 SYNOPSIS
 
   use Config::NameValue;
   my $c = Config::NameValue->new( 'config.file' );
 
-=head1 OVERVIEW
+=head1 DESCRIPTION
 
 Load simple name=value pair configuration files and save them.
 
@@ -43,22 +22,28 @@ Blank lines and comments are ignored.
   name1=value1
   name2=value2 # everything after the octothorpe will be ignored but be saved in the file when changes are made
 
-
-=head1 METHODS
-
-=head2 new
-
-Returns a blessed object.  Can optionally be passed a filename, which will be loaded via the C<load> command.
-
-=head2 load
-
-Loads and parses the specified configuration file.
-
 =cut
+
+use strict;
+use warnings;
+use namespace::autoclean;
+
+use Carp;
+use File::Slurp qw( slurp );
+use Scalar::Util qw( blessed );
+use POSIX qw( strftime );
+
+our $VERSION = 1.00;
 
 { # Quick! Hide!
 
 my $error;
+
+=method new
+
+Returns a blessed object.  Can optionally be passed a filename, which will be loaded via the C<load> command.
+
+=cut
 
 sub new {
 
@@ -75,6 +60,12 @@ sub new {
   return $self;
 
 }
+
+=method load
+
+Loads and parses the specified configuration file.
+
+=cut
 
 sub load {
 
@@ -129,7 +120,7 @@ sub load {
 
 }
 
-=head2 save
+=method save
 
 Saves the configuration, with any changes, to a file.
 
@@ -181,7 +172,7 @@ sub save {
 
 }
 
-=head2 get
+=method get
 
 Returns the value for the requested name, undef for nonexistant or empty names.
 
@@ -209,7 +200,7 @@ sub get {
 
 }
 
-=head2 set
+=method set
 
 Modifies the requested name with the supplied value.
 
@@ -269,7 +260,7 @@ sub set {
 
 }
 
-=head2 error
+=method error
 
 Returns the most recent error
 

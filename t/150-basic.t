@@ -1,6 +1,5 @@
 
-use Test::More tests => 12;
-use Test::Deep;
+use Test::Most tests => 12;
 
 BEGIN { use_ok( 'Config::NameValue' ) }
 
