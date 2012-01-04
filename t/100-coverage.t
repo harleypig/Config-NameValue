@@ -6,13 +6,13 @@ use Test::Most tests => 12;
 
 BEGIN { use_ok( 'Config::NameValue' ) }
 
-throws_ok { Config::NameValue::new } qr/Invalid call to new/, 'caught bad call to new';
-throws_ok { Config::NameValue::load } qr/Can't call load as a non-blessed object/, 'caught non-object call to load';
-throws_ok { Config::NameValue::save } qr/Can't call save as a non-blessed object/, 'caught non-object call to save';
-throws_ok { Config::NameValue::get } qr/Can't call get as a non-blessed object/, 'caught non-object call to get';
-throws_ok { Config::NameValue::set } qr/Can't call set as a non-blessed object/, 'caught non-object call to set';
+throws_ok { Config::NameValue::new() } qr/Invalid call to new/, 'caught bad call to new';
+throws_ok { Config::NameValue::load() } qr/Can't call load as a non-blessed object/, 'caught non-object call to load';
+throws_ok { Config::NameValue::save() } qr/Can't call save as a non-blessed object/, 'caught non-object call to save';
+throws_ok { Config::NameValue::get() } qr/Can't call get as a non-blessed object/, 'caught non-object call to get';
+throws_ok { Config::NameValue::set() } qr/Can't call set as a non-blessed object/, 'caught non-object call to set';
 
-$c = Config::NameValue->new;
+my $c = Config::NameValue->new;
 
 ok( $c->isa( 'Config::NameValue' ), 'object created' );
 
