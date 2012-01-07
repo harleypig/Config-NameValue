@@ -41,7 +41,7 @@ my $error;
 
 =method new
 
-Returns a blessed object.  Can optionally be passed a filename, which will be loaded via the C<load> command.
+Returns a Config::NameValue object.  Can optionally be passed a filename, which will be loaded via the C<load> command.
 
 =cut
 
@@ -49,7 +49,7 @@ sub new {
 
   my ( $class, $file ) = @_;
 
-  croak 'Invalid call to new'
+  croak 'Calling new as a function is not supported'
     unless $class && $class ne '';
 
   my $self = bless {}, ref $class || $class;
@@ -65,13 +65,18 @@ sub new {
 
 Loads and parses the specified configuration file.
 
+Leading and trailing whitespace are stripped.
+
+  name1=value1
+    name1=value1   # are equivalent
+
 =cut
 
 sub load {
 
   my ( $self, $file ) = @_;
 
-  croak "Can't call load as a non-blessed object"
+  croak 'Calling load as a function is not supported'
     unless blessed $self;
 
   if ( ! $file || $file eq '' ) {
@@ -83,31 +88,23 @@ sub load {
 
   }
 
-#  croak "No file to load"
-#    unless $file;
-#
-#  open my $FH, '<', $file
-#    or croak "Unable to open $file: $!";
-#
-#  chomp @{ $self->{ lines } = [ <$FH> ] };
-#
-#  $self->{ count } = @{ $self->{ lines } };
-
   my @lines = slurp( $file, { chomp => 1 } );
 
   for ( my $i = 0 ; $i < @lines ; $i++ ) {
 
-    my $line = $self->{ lines }[$i];
+    my $line = $lines[$i];
 
     next if $line =~ /^\s*(#.*)?$/; # Ignore blank lines and comment lines
     $line =~ s/(?<!\\)#.*$//;       # Strip comment on a valid line, ignoring escaped #'s
 
-#    my @data = split /\s*=\s*/, $line, 2;
-#    $data[1] =~ s/^\s*(["'])(.*)\1$/$2/;
-#    $self->{ name }{ $data[0] } = { value => $data[1], line => $i, modified => 0 };
+    $line =~ s/^\s*(.*?)\s*$/$1/;   # Strip leading and trailing whitespace
 
-    my ( undef, $name, $value ) = $line =~ /^\s*(["'])?(.*?)\1\s*=\s*(.*?)\s*$/;
-    $self->{ name }{ $name } = { value => $value, line => $i, modified => 0 };
+    my @data = split /\s*=\s*/, $line, 2;
+    $data[0] =~ s/^\s*(.*)/$1/;
+    $data[1] =~ s/^(["'])(.*)\1$/$2/;
+    $data[1] =~ s/\\#/#/g;
+
+    $self->{ name }{ $data[0] } = { value => $data[1], line => $i, modified => 0 };
 
   }
 
@@ -126,13 +123,15 @@ Saves the configuration, with any changes, to a file.
 
 If no filename is passed the original file is overwritten, otherwise a new file will be created.
 
+As a special case, if the original filename is explicitly passed to save and there have been no changes an exception will be thrown.
+
 =cut
 
 sub save {
 
   my ( $self, $file ) = @_;
 
-  croak "Can't call save as a non-blessed object"
+  croak 'Calling save as a function is not supported'
     unless blessed $self;
 
   if ( ! $file || $file eq '' ) {
@@ -142,21 +141,28 @@ sub save {
 
     $file = $self->{ file };
 
-  }
+  } elsif ( $file eq $self->{ file } ) {
 
-  return 1 unless $self->{ modified };
-
-  my @modified = grep { $self->{ name }{ $_ }{ modified } } keys %{ $self->{ name } };
-
-  for my $name ( @modified ) {
-
-    my ( $value, $line ) = @{ $self->{ name }{ $name } }{qw( value line )};
-
-    $self->{ lines }[$line] =~ s/^(\s*(["'])$name\2\s*=\s*)(["'])(?:.*)\3\s*$/$1$3$value$3/;
+    croak 'No changes, not saving'
+      unless $self->{ modified };
 
   }
 
-  my $work_file = sprintf '%s.work', $file ||= $self->{ file };
+  if ( $self->{ modified } ) {
+
+    my @modified = grep { $self->{ name }{ $_ }{ modified } } keys %{ $self->{ name } };
+
+    for my $name ( @modified ) {
+
+      my ( $value, $line ) = @{ $self->{ name }{ $name } }{qw( value line )};
+      $self->{ lines }[$line] =~ s/^(\s*(["'])$name\2\s*=\s*)(["'])(?:.*)\3\s*$/$1$3$value$3/;
+
+    }
+  }
+
+  my $work_file = "$file.work";
+
+  require IO::Handle;
 
   open my $FH, '>', $work_file
     or croak "Unable to open $work_file: $!";
@@ -165,7 +171,7 @@ sub save {
     for @{ $self->{ lines } };
 
   $FH->close
-    or carp "Unable to close $work_file: $!\n";
+    or carp "Unable to close $work_file: $!\n"; # How do I test this to satisfy Devel::Cover?
 
   rename $work_file, $file
     or croak "Unable to rename $work_file to $file: $!";
@@ -182,7 +188,7 @@ sub get {
 
   my ( $self, $name ) = @_;
 
-  croak "Can't call get as a non-blessed object"
+  croak 'Calling get as a function is not supported'
     unless blessed $self;
 
   croak "Nothing loaded"
@@ -194,9 +200,7 @@ sub get {
   do { $error = "$name does not exist" ; return }
     unless exists $self->{ name }{ $name };
 
-  ( my $value = $self->{ name }{ $name }{ value } ) =~ s/\\#/#/;
-
-  return $value;
+  return $self->{ name }{ $name }{ value };
 
 }
 
@@ -213,7 +217,7 @@ sub set {
 
   my ( $self, $name, $value ) = @_;
 
-  croak "Can't call set as a non-blessed object"
+  croak 'Calling set as a function is not supported'
     unless blessed $self;
 
   croak "Nothing loaded"
