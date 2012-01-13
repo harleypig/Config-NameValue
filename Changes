@@ -3,7 +3,7 @@ Revision history for {{ $dist->name }}
 {{$NEXT}}
 
 1.02      2012-01-12 19:50:27 America/Boise
-  - Forgot to turn off the Git modules for release
+  - Forgot to turn off the Git modules for release when testing Twitter plugin
 
 1.01      2012-01-12 19:17:01 America/Boise
   - Added coverage and other tests
