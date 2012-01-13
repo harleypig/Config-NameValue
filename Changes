@@ -1,6 +1,8 @@
 Revision history for {{ $dist->name }}
 
 {{$NEXT}}
+
+1.01      2012-01-12 19:17:01 America/Boise
   - Added coverage and other tests
   - Tweaked dist.ini and weaver.ini files
   - Initial release to the CPAN
