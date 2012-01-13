@@ -3,6 +3,7 @@ Revision history for {{ $dist->name }}
 {{$NEXT}}
   - Added coverage and other tests
   - Tweaked dist.ini and weaver.ini files
+  - Initial release to the CPAN
 
 1.00   2011-12-20
   - Initial Creation
