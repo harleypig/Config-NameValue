@@ -1,10 +1,41 @@
 
-use Test::Most tests => 32;
-use Test::NoWarnings; # use ':early' to debug test
+use Test::Most;
 use Test::File;
 use Test::File::Contents;
 
-BEGIN { use_ok( 'Config::NameValue' ) }
+# http://www.cpantesters.org/cpan/report/f0925d72-3e45-11e1-a48f-e7fb434ae6f1
+# perl 5.10.0 and File::Slurp 9999.19 has errors that cause NoWarnings to fail
+
+# Is there a better way to do this?
+
+BEGIN {
+
+  eval "require File::Slurp";
+
+  die "File::Slurp is not installed"
+    if $@;
+
+  my $fs_ver = $File::Slurp::VERSION;
+
+  my $tests = 32;
+
+  if ( $] eq '5.010000' && $fs_ver eq '9999.19' ) {
+
+    note( 'Perl 5.10.0 and File::Slurp 9999.19 cause problems with Test::NoWarnings, not testing for warnings' );
+    $tests--;
+
+  } else {
+
+    require Test::NoWarnings;
+    Test::NoWarnings->import();
+
+  }
+
+  plan tests => $tests;
+
+  use_ok( 'Config::NameValue' );
+
+}
 
 my $test_config = 't/test.config';
 my $new_config  = 't/temp.test.config';
