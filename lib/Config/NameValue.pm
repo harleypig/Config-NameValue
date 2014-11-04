@@ -33,8 +33,6 @@ use File::Slurp qw( slurp );
 use Scalar::Util qw( blessed );
 use POSIX qw( strftime );
 
-our $VERSION = 1.00;
-
 { # Quick! Hide!
 
 my $error;
@@ -180,7 +178,7 @@ sub save {
 
 =method get
 
-Returns the value for the requested name, undef for nonexistant or empty names.
+Returns the value for the requested name, undef for nonexistent or empty names.
 
 =cut
 
