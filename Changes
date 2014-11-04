@@ -1,6 +1,9 @@
 Revision history for {{ $dist->name }}
 
 {{$NEXT}}
+  - Updated dist and weaver ini files.
+  - Added travis support.
+  - Fixed spelling error in module.
 
 1.03      2012-02-09 13:02:22 America/Boise
   - Don't load NoWarnings in basic tests when Perl 5.10.0 and File::Slurp
