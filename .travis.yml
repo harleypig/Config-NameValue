@@ -1,10 +1,16 @@
 language: perl
 perl:
   - "5.20"
+matrix:
+  allow_failures:
+    - perl: "blead"
+  fast_finish: true
 branches:
   only:
     - /^release_testing\/.*/
-env: RELEASE_TESTING=1 AUTHOR_TESTING=1 COVERAGE=1
+env:
+  - RELEASE_TESTING=1 AUTHOR_TESTING=1
+  - COVERAGE=1
 before_install:
   - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
   - source ~/travis-perl-helpers/init
