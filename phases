@@ -1,0 +1,308 @@
+############################################################################################
+
+[PhaseBegins] ########## Before Build ##########
+
+Phase: Before Build
+ - description: something that runs before building really begins
+ - role: -BeforeBuild
+ - phase_method: before_build
+ * AbstractFromPOD
+ * CustomLicense
+ * EnsureNotStale
+ * EnsurePrereqsInstalled
+ * ManifestInRoot
+ * ModuleBuildTiny::Fallback
+ * PromptIfStale
+ * ReportPhase
+ * VerifyPhases
+
+[PhaseEnds] ########## Before Build ##########
+
+############################################################################################
+
+[PhaseBegins] ########## After Build ##########
+
+Phase: After Build
+ - description: something that runs after building is mostly complete
+ - role: -AfterBuild
+ - phase_method: after_build
+ * CopyReadmeFromBuild
+ * Git::Check
+ * Git::CommitBuild
+ * CheckSelfDependency
+ * CopyTo
+ * DynamicPrereqs
+ * EnsureNotStale
+ * EnsurePrereqsInstalled
+ * GitHubREADME::Badge
+ * ManifestInRoot
+ * OnlyCorePrereqs
+ * PromptIfStale
+ * ReadmeAnyFromPod
+ * ReportPhase
+ * Signature
+ * VerifyPhases
+
+[PhaseEnds] ########## After Build ##########
+
+############################################################################################
+
+[PhaseBegins] ########## Before Archive ##########
+
+Phase: Before Archive
+ - description: something that runs before the archive file is built
+ - role: -BeforeArchive
+ - phase_method: before_archive
+ * ReportPhase
+ * Signature
+
+[PhaseEnds] ########## Before Archive ##########
+
+############################################################################################
+
+[PhaseBegins] ########## Before Release ##########
+
+Phase: Before Release
+ - description: something that runs before release really begins
+ - role: -BeforeRelease
+ - phase_method: before_release
+ * Git::NextVersion
+ * Git::Check
+ * TestRelease
+ * Travis::TestRelease
+ * ConfirmRelease
+ * Git::Tag
+ * Git::Push
+ * BlockRelease
+ * CheckChangesHasContent
+ * CheckExtraTests
+ * CheckIssues
+ * CheckMetaResources
+ * EnsureNotStale
+ * EnsurePrereqsInstalled
+ * NextVersion::Semantic
+ * PromptIfStale
+ * ReportPhase
+
+[PhaseEnds] ########## Before Release ##########
+
+############################################################################################
+
+[PhaseBegins] ########## After Release ##########
+
+Phase: After Release
+ - description: something that runs after release is mostly complete
+ - role: -AfterRelease
+ - phase_method: after_release
+ * Git::NextVersion
+ * TravisYML
+ * NextRelease
+ * Git::Commit
+ * Git::CommitBuild
+ * Git::Tag
+ * Git::Push
+ * Clean
+ * Twitter
+ * BumpVersionAfterRelease
+ * ChangeStats::Git
+ * CopyFilesFromRelease
+ * NextVersion::Semantic
+ * ReadmeAnyFromPod
+ * ReportPhase
+ * SchwartzRatio
+
+[PhaseEnds] ########## After Release ##########
+
+############################################################################################
+
+[BlockRelease] releases will be prevented!
+
+Phase: Before Mint
+ - description: something that runs before minting really begins
+ - role: -BeforeMint
+ - phase_method: before_mint
+ * ReportPhase
+
+Phase: Minting Profile
+ - description: something that can find a minting profile dir
+ - role: -MintingProfile
+ - phase_method: profile_dir
+ * ReportPhase
+
+Phase: After Mint
+ - description: something that runs after minting is mostly complete
+ - role: -AfterMint
+ - phase_method: after_mint
+ * ReportPhase
+
+Phase: Build Runner
+ - description: something used as a delegating agent during 'dzil run'
+ - role: -BuildRunner
+ - phase_method: build
+ * ModuleBuild
+ * BuildSelf
+ * FakeFaker
+ * ModuleBuildDatabase
+ * ModuleBuild::OptionalXS
+ * ModuleBuild::RequireXS
+ * ModuleBuildTiny
+ * ModuleBuildTiny::Fallback
+ * ModuleBuild::XSOrPP
+ * ModuleInstall
+ * ReportPhase
+
+Phase: Encoding Provider
+ - description: something that sets a files' encoding
+ - role: -EncodingProvider
+ - phase_method: set_file_encoding
+ * VerifyPhases
+
+Phase: Install Tool
+ - description: something that creates an install program for a dist
+ - role: -InstallTool
+ - phase_method: setup_installer
+ * TravisYML
+ * ModuleBuild
+ * ReadmeFromPod
+ * CheckChangeLog
+ * AssertOS
+ * BuildSelf
+ * CheckBin
+ * CheckLib
+ * Conflicts
+ * DynamicPrereqs
+ * NoAutomatedTesting
+ * FakeFaker
+ * HelpWanted
+ * MatchManifest
+ * ModuleBuildDatabase
+ * ModuleBuild::OptionalXS
+ * ModuleBuild::RequireXS
+ * ModuleBuildTiny
+ * ModuleBuildTiny::Fallback
+ * ModuleBuild::XSOrPP
+ * ModuleInstall
+ * OSPrereqs
+ * PerlVersionPrereqs
+ * ReportPhase
+ * TextTabs
+
+Phase: License Provider
+ - description: something that provides a license for the dist
+ - role: -LicenseProvider
+ - phase_method: provide_license
+ * LicenseFromModule
+
+Phase: Module Maker
+ - description: something that injects module files into the dist
+ - role: -ModuleMaker
+ - phase_method: make_module
+ * ReportPhase
+ * TemplateModule
+
+Phase: Name Provider
+ - description: something that provides a name for the dist
+ - role: -NameProvider
+ - phase_method: provide_name
+ * NameFromDirectory
+
+Phase: Prereq Source
+ - description: something that registers prerequisites
+ - role: -PrereqSource
+ - phase_method: register_prereqs
+ * MetaTests
+ * PodCoverageTests
+ * PodSyntaxTests
+ * Test::CheckBreaks
+ * Test::CheckDeps
+ * Test::CleanNamespaces
+ * Test::Compile
+ * Test::CPAN::Changes
+ * Test::DiagINC
+ * Test::EOL
+ * Test::Kwalitee
+ * Test::NoTabs
+ * Test::PAUSE::Permissions
+ * Test::ReportPrereqs
+ * Test::Synopsis
+ * Test::UseAllModules
+ * Test::PodSpelling
+ * AutoPrereqs
+ * ConfigureRequires
+ * BuildRequires
+ * TestRequires
+ * ModuleBuild
+ * AssertOS
+ * BuildSelf
+ * CheckBin
+ * CheckLib
+ * Conflicts
+ * FakeFaker
+ * LatestPrereqs
+ * MinimumPerl
+ * MinimumPerlFast
+ * ModuleBuildDatabase
+ * ModuleBuild::OptionalXS
+ * ModuleBuild::RequireXS
+ * ModuleBuildTiny
+ * ModuleBuildTiny::Fallback
+ * ModuleBuild::XSOrPP
+ * ModuleInstall
+ * Prereqs
+ * Prereqs::AuthorDeps
+ * Prereqs::FromCPANfile
+ * Prereqs::MatchInstalled
+ * Prereqs::MatchInstalled::All
+ * Prereqs::Plugins
+ * Prereqs::Recommend::MatchInstalled
+ * Prereqs::Soften
+ * Prereqs::SyncVersions
+ * ReportPhase
+ * ReportVersions::Tiny
+
+Phase: Releaser
+ - description: something that makes a release of the dist
+ - role: -Releaser
+ - phase_method: release
+ * FakeRelease
+ * BlockRelease
+ * ReportPhase
+ * RPM::Push
+ * Run::Release
+
+Phase: Test Runner
+ - description: something used as a delegating agent to 'dzil test'
+ - role: -TestRunner
+ - phase_method: test
+ * ModuleBuild
+ * BuildSelf
+ * FakeFaker
+ * ModuleBuildDatabase
+ * ModuleBuild::OptionalXS
+ * ModuleBuild::RequireXS
+ * ModuleBuildTiny
+ * ModuleBuildTiny::Fallback
+ * ModuleBuild::XSOrPP
+ * ModuleInstall
+ * ReportPhase
+ * RunExtraTests
+ * Run::Test
+ * TestRun
+
+Unrecognised: Phase not known
+ - description: These plugins exist but were not in any predefined phase to scan for
+ * ExecDir
+ * Test::Compile::PerFile/AUTOVIV/:InstallModulesPM
+ * Config::Git
+ * Extras
+ * LogContextual
+ * Prereqs::DarkPAN
+ * PreviousVersion::Changelog
+ * :InstallModules
+ * :IncModules
+ * :TestFiles
+ * :ExecFiles
+ * :ShareFiles
+ * :MainModule
+ * :AllFiles
+ * :NoFiles

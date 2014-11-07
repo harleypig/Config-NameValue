@@ -1,0 +1,190 @@
+NAME
+    Config::NameValue - Round trip simple name/value config file handling.
+
+VERSION
+      This document describes v1.04 of Config::NameValue - released November 07, 2014 as part of Config-NameValue.
+
+SYNOPSIS
+      use Config::NameValue;
+      my $c = Config::NameValue->new( 'config.file' );
+
+DESCRIPTION
+    Load simple name=value pair configuration files and save them.
+
+    Blank lines and comments are ignored.
+
+      # Begin config file
+
+      # Everything up to here will be ignored but continued in saved file.
+
+      name1=value1
+      name2=value2 # everything after the octothorpe will be ignored but be saved in the file when changes are made
+
+METHODS
+  new
+    Returns a Config::NameValue object. Can optionally be passed a filename,
+    which will be loaded via the "load" command.
+
+  load
+    Loads and parses the specified configuration file.
+
+    Leading and trailing whitespace are stripped.
+
+      name1=value1
+        name1=value1   # are equivalent
+
+  save
+    Saves the configuration, with any changes, to a file.
+
+    If no filename is passed the original file is overwritten, otherwise a
+    new file will be created.
+
+    As a special case, if the original filename is explicitly passed to save
+    and there have been no changes an exception will be thrown.
+
+  get
+    Returns the value for the requested name, undef for nonexistent or empty
+    names.
+
+  set
+    Modifies the requested name with the supplied value.
+
+    If the name does not exist it will be created and saved with a comment
+    indicating that it was added by this program
+
+  error
+    Returns the most recent error
+
+SUPPORT
+  Perldoc
+    You can find documentation for this module with the perldoc command.
+
+      perldoc Config::NameValue
+
+  Websites
+    The following websites have more information about this module, and may
+    be of help to you. As always, in addition to those websites please use
+    your favorite search engine to discover more resources.
+
+    *   MetaCPAN
+
+        A modern, open-source CPAN search engine, useful to view POD in HTML
+        format.
+
+        <http://metacpan.org/release/Config-NameValue>
+
+    *   Search CPAN
+
+        The default CPAN search engine, useful to view POD in HTML format.
+
+        <http://search.cpan.org/dist/Config-NameValue>
+
+    *   RT: CPAN's Bug Tracker
+
+        The RT ( Request Tracker ) website is the default bug/issue tracking
+        system for CPAN.
+
+        <https://rt.cpan.org/Public/Dist/Display.html?Name=Config-NameValue>
+
+    *   AnnoCPAN
+
+        The AnnoCPAN is a website that allows community annotations of Perl
+        module documentation.
+
+        <http://annocpan.org/dist/Config-NameValue>
+
+    *   CPAN Ratings
+
+        The CPAN Ratings is a website that allows community ratings and
+        reviews of Perl modules.
+
+        <http://cpanratings.perl.org/d/Config-NameValue>
+
+    *   CPAN Forum
+
+        The CPAN Forum is a web forum for discussing Perl modules.
+
+        <http://cpanforum.com/dist/Config-NameValue>
+
+    *   CPANTS
+
+        The CPANTS is a website that analyzes the Kwalitee ( code metrics )
+        of a distribution.
+
+        <http://cpants.cpanauthors.org/dist/overview/Config-NameValue>
+
+    *   CPAN Testers
+
+        The CPAN Testers is a network of smokers who run automated tests on
+        uploaded CPAN distributions.
+
+        <http://www.cpantesters.org/distro/C/Config-NameValue>
+
+    *   CPAN Testers Matrix
+
+        The CPAN Testers Matrix is a website that provides a visual overview
+        of the test results for a distribution on various Perls/platforms.
+
+        <http://matrix.cpantesters.org/?dist=Config-NameValue>
+
+    *   CPAN Testers Dependencies
+
+        The CPAN Testers Dependencies is a website that shows a chart of the
+        test results of all dependencies for a distribution.
+
+        <http://deps.cpantesters.org/?module=Config::NameValue>
+
+  Email
+    You can email the author of this module at "AYOUNG at cpan.org" asking
+    for help with any problems you have.
+
+  Source Code
+    The code is open to the world, and available for you to hack on. Please
+    feel free to browse it and play with it, or whatever. If you want to
+    contribute patches, please send me a diff or prod me to pull from your
+    repository :)
+
+    <https://github.com/harleypig/Config-NameValue>
+
+      git clone https://github.com/harleypig/Config-NameValue.git
+
+INSTALLATION
+    See perlmodinstall for information and options on installing Perl
+    modules.
+
+SOURCE
+    The development version is on github at
+    <http://https://github.com/harleypig/Config-NameValue> and may be cloned
+    from <git://https://github.com/harleypig/Config-NameValue.git>
+
+AUTHOR
+    Alan Young <harleypig@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2014 by Alan Young.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
+DISCLAIMER OF WARRANTY
+    BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+    FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+    OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+    PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+    EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+    ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+    YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+    NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+    IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+    WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+    REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE LIABLE
+    TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
+    CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+    SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+    RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+    FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+    SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+    DAMAGES.
+

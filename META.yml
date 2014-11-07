@@ -1,0 +1,57 @@
+---
+abstract: 'Round trip simple name/value config file handling.'
+author:
+  - 'Alan Young <harleypig@gmail.com>'
+build_requires:
+  ExtUtils::MakeMaker: '0'
+  File::Spec: '0'
+  IO::Handle: '0'
+  IPC::Open3: '0'
+  Module::Build: '0.4208'
+  Module::Build::Version: '0'
+  Module::Runtime: '0'
+  Test::CPAN::Meta::JSON: '0'
+  Test::CheckChanges: '0'
+  Test::CheckDeps: '0.010'
+  Test::CheckManifest: '0'
+  Test::File: '0'
+  Test::File::Contents: '0'
+  Test::HasVersion: '0'
+  Test::MinimumVersion: '0'
+  Test::More: '0.94'
+  Test::Most: '0'
+  Test::NoSmartComments: '0'
+  Test::NoWarnings: '0'
+  Test::Pod::LinkCheck: '0'
+  Test::Portability::Files: '0'
+  Test::UseAllModules: '0'
+  Test::Version: '0'
+  perl: '5.006'
+configure_requires:
+  Module::Build: '0.4208'
+  Module::Build::Version: '0'
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 5.024, CPAN::Meta::Converter version 2.142690'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Config-NameValue
+no_index:
+  directory:
+    - t
+    - xt
+requires:
+  Carp: '0'
+  File::Slurp: '0'
+  IO::Handle: '0'
+  POSIX: '0'
+  Scalar::Util: '0'
+  namespace::autoclean: '0'
+  strict: '0'
+  warnings: '0'
+resources:
+  bugtracker: http://github.com/harleypig/Config-NameValue/issues
+  homepage: http://metacpan.org/release/Config-NameValue
+  repository: https://github.com/harleypig/Config-NameValue.git
+version: '1.04'
