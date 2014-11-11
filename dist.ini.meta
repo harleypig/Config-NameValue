@@ -1,0 +1,456 @@
+name             = Config-NameValue
+author           = Alan Young <harleypig@gmail.com>
+license          = Perl_5
+copyright_holder = Alan Young
+copyright_year   = 2014
+;main_module      = lib/Config/NameValue.pm
+
+; !!!
+; !!! see https://metacpan.org/module/Dist::Zilla::PluginBundle::DAGOLDEN
+; !!! for annotation, add my own.  Break out tests into dist, author and
+; !!! release tests?
+; !!!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Author prereqs not detected by Dist::Zilla
+;
+; authordep Pod::Elemental::Transformer::List
+; authordep Pod::Weaver::Plugin::EnsureUniqueSections
+; authordep Pod::Weaver::Plugin::StopWords
+; authordep Pod::Weaver::Section::Availability
+; authordep Pod::Weaver::Section::Installation
+; authordep Pod::Weaver::Section::SeeAlso
+; authordep Pod::Weaver::Section::SourceGitHub
+; authordep Pod::Weaver::Section::Support
+; authordep Pod::Weaver::Section::WarrantyDisclaimer
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;[ReportPhase/PhaseBegins]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Version Provider
+; - description: something that provides a version number for the dist
+
+[Git::NextVersion]
+first_version = 0.01
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Meta Provider
+; - description: something that provides metadata (for META.yml/json)
+
+;[Breaks]
+;Foo::Bar = <= 1.1
+
+[Bugtracker]
+web = http://github.com/harleypig/%s/issues
+
+[GithubMeta]
+homepage = http://metacpan.org/release/Config-NameValue
+
+[MetaNoIndex]
+directory = t
+directory = xt
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: ExecFiles
+
+[ExecDir]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Share Dir
+; - description: something that picks a directory to install as shared files
+
+[ShareDir]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: File Gatherer
+; - description: something that gathers files into the distribution
+
+[GatherDir]
+include_dotfiles = 1
+prune_directory = .git
+
+;[ChangelogFromGit]
+;[Conflicts]
+;[ContributorsFile]
+;[Covenant]
+;[CPANFile]
+;[FakeFaker]
+;[GitFmtChanges]
+;[InlineFiles]
+;[InlineIncluder]
+[License]
+[Manifest]
+;[ManifestInRoot]
+[MetaJSON]
+[MetaYAML]
+;[PodInherit]
+;[Readme]
+;[ReadmeAnyFromPod]
+[ReportVersions]
+;[ReportVersions::Tiny]
+;[ShareDir::Tarball]
+;[Signature]
+;[SpellingCommonMistakesTests]
+;[SubmittingPatches]
+;[TestMLIncluder]
+;[VerifyPhases]
+
+; Tests
+
+[ConsistentVersionTest]
+[HasVersionTests]
+[MetaTests]
+[NoSmartCommentsTests]
+[PodCoverageTests]
+[PodSyntaxTests]
+
+[Test::ChangesHasContent]
+[Test::CheckChanges]
+[Test::CheckDeps]
+[Test::CheckManifest]
+[Test::CleanNamespaces]
+[Test::Compile]
+[Test::Compile::PerFile]
+[Test::CPAN::Changes]
+[Test::CPAN::Meta::JSON]
+[Test::DistManifest]
+[Test::EOF]
+[Test::EOL]
+[Test::Fixme]
+[Test::Inline]
+[Test::Kwalitee]
+[Test::Legal]
+[Test::MinimumVersion]
+[Test::NoTabs]
+[Test::PAUSE::Permissions]
+[Test::Pod::LinkCheck]
+[Test::Pod::No404s]
+[Test::ReportPrereqs]
+[Test::Synopsis]
+[Test::UnusedVars] ; requires 5.10
+[Test::UseAllModules]
+[Test::Version]
+
+;Use in conjunction with [Breaks]
+;[Test::CheckBreaks]
+;conflicts_module = Foo::Bar
+
+[Test::Perl::Critic]
+;critic_config = .perlcriticrc
+
+[Test::PodSpelling]
+wordlist = Pod::Wordlist
+spell_cmd = aspell list
+stopwords = LICENCE
+stopwords = MERCHANTABILITY
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: File Pruner
+; - description: something that removes found files from the distribution
+
+[PruneFiles]
+filename = cover
+filename = dist.ini
+filename = docs
+filename = weaver.ini
+match = ^\..*\.sw.$ ; skip any vim swap files
+
+[PruneCruft]
+except = \.perl.*
+;except = \.perlcriticrc
+;except = \.perltidyrc
+
+[ManifestSkip]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: File Munger
+; - description: something that alters a file's destination or content
+
+;[ChangeStats::Git]
+;[CheckBin]
+;[CheckLib]
+;[CoalescePod]
+;[CoderwallEndorse]
+[ExtraTests]
+;[FatPacker]
+;[InsertExample]
+;[MetaData::BuiltWith]
+;[MetaData::BuiltWith::All]
+[NextRelease]
+;[OurDate]
+[OurPkgVersion]
+;[OverridePkgVersion]
+;[PkgDist]
+;[PkgVersion]
+;[PkgVersionIfModuleWithPod]
+;[PodVersion]
+[PodWeaver]
+;[PodWeaverIfPod]
+;[Precompute]
+;[Prepender]
+;[Readme]
+;[ReversionOnRelease]
+;[SetScriptShebang]
+;[TextTabs]
+
+[PerlTidy]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Register Prereqs
+
+[AutoPrereqs]
+
+[Prereqs::AuthorDeps]
+
+[Prereqs / ConfigureRequires]
+; perl 5.8.9 isn't installing MB::Version
+Module::Build::Version   = 0
+
+[Prereqs / BuildRequires]
+Module::Build::Version   = 0
+
+[Prereqs / TestRequires]
+Test::CheckChanges       = 0
+Test::CheckManifest      = 0
+Test::CPAN::Meta::JSON   = 0
+Test::HasVersion         = 0
+Test::MinimumVersion     = 0
+Test::NoSmartComments    = 0
+Test::Pod::LinkCheck     = 0
+Test::Version            = 0
+
+[ModuleBuild]
+; https://github.com/Perl-Toolchain-Gang/Module-Build/issues/48
+mb_version = 0.4208
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Install Tool
+; - description: something that creates an install program for a dist
+
+;[AssertOS]
+;[BuildSelf]
+;[CheckBin]
+[CheckChangeLog]
+;[CheckLib]
+;[Conflicts]
+;[FakeFaker]
+;[HelpWanted]
+[InstallGuide]
+;[MatchManifest]
+;[ModuleInstall]
+;[NoAutomatedTesting]
+;[OSPrereqs]
+;[PerlVersionPrereqs]
+[ReadmeFromPod]
+;[TextTabs]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: After Build
+; - description: something that runs after building is mostly complete
+
+[CopyReadmeFromBuild]
+
+;[CheckSelfDependency]
+;[CopyTo]
+;[GitHubREADME::Badge]
+;[OnlyCorePrereqs]
+;[Signature]
+;[VerifyPhases]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Before Release
+; - description: something that runs before release really begins
+
+[Git::Check]
+allow_dirty = dist.ini
+allow_dirty = weaver.ini
+allow_dirty = README
+allow_dirty = .travis.yml
+
+[TestRelease]
+[Travis::TestRelease]
+[ConfirmRelease]
+[BlockRelease]
+
+;[CheckChangesHasContent]
+;[CheckExtraTests]
+;[CheckIssues]
+;[CheckMetaResources]
+;[EnsureNotStale]
+;[EnsurePrereqsInstalled]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Releaser
+; - description: something that makes a release of the dist
+; Uncomment [Twitter] when switching to [UploadToCPAN]
+[FakeRelease]
+;[UploadToCPAN]
+
+;[Run::Release]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: After Release
+; - description: something that runs after release is mostly complete
+
+;[Git::Commit]
+
+;[Git::CommitBuild]
+;branch = build/%b
+;release_branch = release
+;message = %h
+
+;[Git::Tag]
+;tag_format = v%v
+;branch = release
+
+;[Git::Push]
+;push_to = origin
+;push_to = origin HEAD:refs/head/release
+;push_to = origin HEAD:refs/notes/commits
+
+;[Twitter]
+;tweet = Released {{$DIST}}-{{$VERSION}}{{$TRIAL}} {{$URL}} - {{$ABSTRACT}}
+;hash-tags = #perl #cpan
+
+[Clean]
+
+;[BumpVersionAfterRelease]
+;[CopyFilesFromRelease]
+;[SchwartzRatio]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Before Build
+; - description: something that runs before building really begins
+
+;[AbstractFromPOD]
+;[CustomLicense]
+;[EnsureNotStale]
+;[EnsurePrereqsInstalled]
+;[ModuleBuildTiny::Fallback]
+;[PromptIfStale]
+;[VerifyPhases]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Phase: Before Archive
+; - description: something that runs before the archive file is built
+
+;[Signature]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;[ReportPhase/PhaseEnds]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Not going to use
+
+;[AutoVersion]
+;[BumpVersionFromGit]
+;[NextVersion::Semantic]
+;[RewriteVersion]
+;[RewriteVersion::Sanitized]
+;[StaticVersion]
+;[Test::CreateFromMojoTemplates]
+;[Test::Kwalitee::Extra] overlaps and conflicts with Test::Kwalitee
+;[Test::LocalBrew]
+;[Test::Portability] not interested in worrying about portability
+;[TravisYML] can't get the .travis.yml file generated properly
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; DEPRECATED
+
+;[CriticTests]         use Test::Perl::Critic
+;[EOLTests]            use Test::EOL
+;[MinimumVersionTests] use Test::MinimumVersion
+;[NoTabsTests]         use Test::NoTabs
+;[PodSpellingTests]    use Test::PodSpelling
+;[Prereq]              use Prereqs
+;[SynopsisTests]       use Test::Synopsis
+;[UnusedVarsTests]     use Test::UnusedVars
+
+;[FileKeywords]
+;[BumpVersion]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Causes errors I don't have time or inclination to track down.
+;   OR
+; To be examined later
+
+;[AppendExternalData]
+;[AutoModuleShareDirs]
+;[Encoding]
+;[GenerateFile]
+;[GenerateFile::ShareDir]
+;[Git]
+;[Git::Contributors]
+;[Git::DescribeVersion]
+;[Git::ExcludeUntracked]
+;[Git::GatherDir]
+;[GitHub]
+;[GitHub::Create]
+;[GitHub::Meta]
+;[GitHub::Update]
+;[Git::Init]
+;[Git::NextRelease]
+;[Git::NextVersion::Sanitized]
+;[Git::Remote::Check]
+;[Git::Remote::Check::BeforeBuild]
+;[Git::Remote::Update]
+;[Git::Remote::Update::BeforeBuild]
+;[if]
+;[if::ENV]
+;[if::not]
+;[if::not::ENV]
+;[MetaProvides]
+;[MetaProvides::Class]
+;[MetaProvides::FromFile]
+;[MetaProvides::Package]
+;[MetaResourcesFromGit]
+;[ModuleBuildDatabase]
+;[ModuleBuild::OptionalXS]
+;[ModuleBuild::RequireXS]
+;[ModuleBuildTiny]
+;[ModuleBuildTiny::Fallback]
+;[ModuleBuild::XSOrPP]
+;[ModuleIncluder]
+;[MungeFile::WithConfigFile]
+;[MungeFile::WithData]
+;[MungeFile::WithDataSection]
+;[OptionalFeature]
+;[PurePerlTests]
+;[ReleaseOnlyWithLatest]
+;[RemovePrereqs]
+;[RemovePrereqsMatching]
+;[Rsync]
+;[Run]
+;[Run::AfterBuild]
+;[Run::AfterMint]
+;[Run::AfterRelease]
+;[Run::BeforeBuild]
+;[Run::BeforeRelease]
+;[Run::Role::Runner]
+;[ScpDeploy]
+;[Test::DiagINC]
+;[Upload::SCP]
+;[UploadToCpanSite]
+;[VersionFromScript]
+;[AssertOS]
+;[Authority]
+;[AuthorityFromModule]
+;[Conflicts]
+;[Covenant]
+;[DynamicPrereqs]
+;[Homepage]
+;[MetaConfig]
+;[Meta::Dynamic::Config]
+;[MetaResources]
+;[OSPrereqs]
+;[PerlVersionPrereqs]
+;[Prereqs::FromCPANfile]
+;[Repository]
+
+;[ModuleShareDirs]
+;[ShareDir::Tarball]
+
+;[RPM::Push]
