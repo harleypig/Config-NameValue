@@ -88,7 +88,7 @@ prune_directory = .git
 ;[PodInherit]
 ;[Readme]
 ;[ReadmeAnyFromPod]
-[ReportVersions]
+;[ReportVersions]
 ;[ReportVersions::Tiny]
 ;[ShareDir::Tarball]
 ;[Signature]
@@ -99,7 +99,7 @@ prune_directory = .git
 
 ; Tests
 
-[ConsistentVersionTest]
+;[ConsistentVersionTest]
 [HasVersionTests]
 [MetaTests]
 [NoSmartCommentsTests]
@@ -115,10 +115,9 @@ prune_directory = .git
 [Test::Compile::PerFile]
 [Test::CPAN::Changes]
 [Test::CPAN::Meta::JSON]
-[Test::DistManifest]
-[Test::EOF]
+;[Test::DistManifest]
+;[Test::EOF]
 [Test::EOL]
-[Test::Fixme]
 [Test::Inline]
 [Test::Kwalitee]
 [Test::Legal]
@@ -214,11 +213,17 @@ Module::Build::Version   = 0
 [Prereqs / TestRequires]
 Test::CheckChanges       = 0
 Test::CheckManifest      = 0
+;Test::ConsistentVersion = 0
 Test::CPAN::Meta::JSON   = 0
+Test::DistManifest       = 0
+Test::EOF                = 0
 Test::HasVersion         = 0
+Test::Legal              = 0
 Test::MinimumVersion     = 0
 Test::NoSmartComments    = 0
+Test::Perl::Critic       = 0
 Test::Pod::LinkCheck     = 0
+Test::Pod::No404s        = 0
 Test::Version            = 0
 
 [ModuleBuild]
@@ -352,6 +357,7 @@ allow_dirty = .travis.yml
 ;[RewriteVersion::Sanitized]
 ;[StaticVersion]
 ;[Test::CreateFromMojoTemplates]
+;[Test::Fixme]
 ;[Test::Kwalitee::Extra] overlaps and conflicts with Test::Kwalitee
 ;[Test::LocalBrew]
 ;[Test::Portability] not interested in worrying about portability
