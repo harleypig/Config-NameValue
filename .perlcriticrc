@@ -918,19 +918,12 @@ verbose = %s:%f:%l:%c:%p %m\n
 
 # Return value of flagged function ignored.
 [InputOutput::RequireCheckedSyscalls]
+functions                            = :builtins
+exclude_functions                    = sleep print
 # set_themes                         = certrule core maintenance
 # add_themes                         =
 # severity                           = 1
 # maximum_violations_per_document    = no_limit
-
-# The set of functions to require checking the return value of.
-# functions = open close print say
-functions                            = :builtins
-
-# The set of functions to not require checking the return value of.
-# exclude_functions = 
-exclude_functions                    = sleep print
-
 
 # Write `open $fh, q{<:encoding(UTF-8)}, $filename;' instead of `open $fh, q{{<:utf8}, $filename;'.
 [InputOutput::RequireEncodingWithUTF8Layer]
@@ -1296,6 +1289,102 @@ file_lexical_variables = :all_upper
 # set_themes                         = cosmetic deprecated pbp
 # add_themes                         =
 # severity                           = 1
+# maximum_violations_per_document    = no_limit
+
+
+# Check module for use of "Dumper"
+[-OTRS::ProhibitDumper]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do no use FetchrowHashref
+[OTRS::ProhibitFetchrowHashref]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# do not use "localtime"
+[-OTRS::ProhibitLocaltime]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do not use "not", "and" and other low precedence operators
+[-OTRS::ProhibitLowPrecedenceOps]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do not use "open"
+[-OTRS::ProhibitOpen]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do not use "push @ISA, ..."
+[OTRS::ProhibitPushISA]
+# set_themes                         = otrs
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do not use "require"
+[-OTRS::ProhibitRequire]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Do not use File::Path's rmtree
+[OTRS::ProhibitRmtree]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Some core functions should not be used
+[OTRS::ProhibitSomeCoreFunctions]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Variable, subroutine, and package names have to be in CamelCase
+[-OTRS::RequireCamelCase]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Use parens when a method is called
+[-OTRS::RequireParensWithMethods]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
+# maximum_violations_per_document    = no_limit
+
+
+# Check if modules have a "true" return value
+[OTRS::RequireTrueReturnValueForModules]
+# set_themes                         = otrs otrs_lt_3_3
+# add_themes                         =
+# severity                           = 5
 # maximum_violations_per_document    = no_limit
 
 
